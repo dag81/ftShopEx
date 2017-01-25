@@ -69,11 +69,34 @@ public class FruitshopTest {
         assertEquals(shop.scannedProducts(""), "£0.00");
         assertEquals(shop.scannedProducts("Apple"), "£0.60");
         assertEquals(shop.scannedProducts("Orange"), "£0.25");
-        assertEquals(shop.scannedProducts("Apple, Apple"), "£1.20");
+        assertEquals(shop.scannedProducts("Apple, Apple"), "£0.60");
         assertEquals(shop.scannedProducts("Orange, Apple"), "£0.85");
-        assertEquals(shop.scannedProducts("Orange, Orange, Orange"), "£0.75");
+        assertEquals(shop.scannedProducts("Orange, Orange, Orange"), "£0.50");
+        assertEquals(shop.scannedProducts("Orange, Orange, Orange"), "£0.50");
+        assertEquals(shop.scannedProducts("Apple, Apple, Orange, Apple"), "£1.45");
+    }
 
-        assertEquals(shop.scannedProducts("Apple, Apple, Orange, Apple"), "£2.05");
+    /**
+     * Validate Buy one, get one free on Apples
+     */
+
+    @Test
+    public void testScannedProductsAppleOffer() throws Exception {
+        assertEquals(shop.scannedProducts("Apple"), "£0.60");
+        assertEquals(shop.scannedProducts("Apple, Apple"), "£0.60");
+        assertEquals(shop.scannedProducts("Apple, Apple, Apple"), "£1.20");
+    }
+
+    /**
+     * Validate 3 for the price of 2 on Oranges
+     */
+
+    @Test
+    public void testScannedProductsOrangeOffer() throws Exception {
+        assertEquals(shop.scannedProducts("Orange"), "£0.25");
+        assertEquals(shop.scannedProducts("Orange, Orange"), "£0.50");
+        assertEquals(shop.scannedProducts("Orange, Orange, Orange"), "£0.50");
+        assertEquals(shop.scannedProducts("Orange, Orange, Orange, Orange"), "£0.75");
     }
 
     /**
