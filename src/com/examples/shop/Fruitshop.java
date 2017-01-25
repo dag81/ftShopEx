@@ -57,8 +57,41 @@ public class Fruitshop
         // Calculate the non discounted total value in base currency units
         long totalValue = Arrays.stream(productsArray).mapToInt(p->p.priceInPence).sum();
 
+        // Apply discount for (buy one / get one free on apples)
+        totalValue -= calcApplesDiscount(productsArray);
+
+        // Apply discount for (3 for the price of 2 on Oranges)
+        totalValue -= calcOrangessDiscount(productsArray);
+
         // Translate from base units of pence to GBP
         return totalValue / 100d;
+    }
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Discount definitions
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Return the amount to deduct for (buy one, get one free on apples)
+     * @param products - The array of product pointers / references, purchased by the customer
+     * @return - The total value to deduct in base SI units of currency. (e.g. pence for GBP)
+     */
+    public final long calcApplesDiscount(final Product[] products)
+    {
+        final long appleCount = Arrays.stream(products).filter(p -> p.equals(_apple)).count();
+        return ((appleCount / 2) * _apple.priceInPence);
+    }
+
+    /**
+     * Return the amount to deduct for (3 for the price of 2 on oranges)
+     * @param products - The array of product pointers / references, purchased by the customer
+     * @return - The total value to deduct in base SI units of currency. (e.g. pence for GBP)
+     */
+    public final long calcOrangessDiscount(final Product[] products)
+    {
+        final long orangeCount = Arrays.stream(products).filter(p -> p.equals(_orange)).count();
+        return (orangeCount / 3) * _orange.priceInPence;
     }
 
 
